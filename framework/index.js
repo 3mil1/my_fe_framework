@@ -93,5 +93,3 @@ function createRealNodeByVirtual(virtual) {
     }
     return document.createElement(virtual.type)
 }
-
-// ##########################
