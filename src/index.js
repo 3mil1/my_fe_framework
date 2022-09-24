@@ -1,5 +1,5 @@
 import VDom from "../framework/Vdom";
-import {state} from "./state";
+import {store} from "./state";
 import {App} from "./App";
 import {render} from "../framework"
 
@@ -10,13 +10,8 @@ export function renderView(state) {
     )
 }
 
-renderView(state)
+store.subscribe(() => {
+    renderView(store.getState())
+})
 
-setInterval(() => {
-    state = {
-        ...state,
-        time: new Date()
-    }
-
-    renderView(state)
-}, 1000)
+renderView(store.getState())

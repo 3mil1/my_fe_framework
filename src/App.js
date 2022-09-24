@@ -1,11 +1,30 @@
 import VDom from "../framework/Vdom";
 import "./styles.css";
+import {store} from "./state";
 
 export function App({state}) {
+
+    const del = () => {
+        store.changeState((state) => {
+            state.li.reverse()
+            state.li.splice(2, 1)
+        })
+    }
+
     return (
         <section className="todoapp">
-            <Header/>
-            <Todos/>
+            {/*<Header/>*/}
+            {/*<Todos/>*/}
+            <ul>
+                {state.li.map(el => {
+                    return <li key={el.id} onClick={() => console.log(el.id)}>{el.text}</li>
+                })}
+
+                {/*<li key={2}>2</li>*/}
+                {/*<li key={3}>3</li>*/}
+            </ul>
+
+            <button onClick={del}>DEL</button>
         </section>
     )
 }
