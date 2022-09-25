@@ -58,20 +58,13 @@ function sync(virtualNode, realNode) {
     const realChildren = realNode.childNodes
 
     for (let i = 0; i < virtualChildren.length || i < realChildren.length; i++) {
-        // if (typeof virtualChildren[i] == 'object' && typeof realChildren[i] == 'object') {
-        //     if (virtualChildren[i].props !== undefined && realChildren[i].props !== undefined && virtualChildren[i].props.children[0].key !== null) {
-        //         let [v, r] = compare_keys(virtualChildren[i].props.children, realChildren[i].props.children)
-        //         virtualChildren[i].props.children = v;
-        //         realChildren[i].props.children = r;
-        //     }
-        // }
-
         const virtual = virtualChildren[i]
         const real = realChildren[i]
 
         // Remove
         if (virtual === undefined && real !== undefined) {
-            realNode.remove(real)
+            realNode.removeChild(realNode.lastChild)
+            // realNode.remove(real)
         }
 
         // Update
@@ -91,13 +84,13 @@ function sync(virtualNode, realNode) {
             const newReal = createRealNodeByVirtual(virtual)
             addEventListeners(newReal, virtual.props)
             sync(virtual, newReal)
-            console.log(virtual)
             realNode.appendChild(newReal)
         }
     }
 }
 
 function compare_keys(virtualNode, realNode) {
+    console.log(virtualNode, realNode)
     let setOfKeys = new Set()
     for (const node in virtualNode) {
         setOfKeys.add(node.key)
@@ -108,7 +101,7 @@ function compare_keys(virtualNode, realNode) {
             realNode.remove(node)
         }
     }
-
+    console.log(virtualNode, realNode)
     return [virtualNode, realNode]
 }
 

@@ -11,20 +11,36 @@ export function App({state}) {
         })
     }
 
+    const deleteId = (id) => {
+        store.changeState((state) => {
+            const indexOfObject = state.li.findIndex(object => {
+                return object.id === id;
+            });
+
+            state.li.splice(indexOfObject, 1)
+        })
+    }
+
     return (
         <section className="todoapp">
             {/*<Header/>*/}
             {/*<Todos/>*/}
             <ul>
                 {state.li.map(el => {
-                    return <li key={el.id} onClick={() => console.log(el.id)}>{el.text}</li>
+                    return <li key={el.id} onClick={() => {
+
+                        deleteId(el.id)
+                        console.log(state.li)
+                        console.log(el)
+                    }
+                    }>{el.text}</li>
                 })}
 
                 {/*<li key={2}>2</li>*/}
                 {/*<li key={3}>3</li>*/}
             </ul>
 
-            <button onClick={del}>DEL</button>
+            <button onClick={deleteId}>DEL</button>
         </section>
     )
 }
