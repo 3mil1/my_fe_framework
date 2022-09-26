@@ -1,23 +1,32 @@
 const SET_LI = 'SET_LI'
 const DELETE_LI = 'DELETE_LI'
+const STATUS_LI = 'STATUS_LI';
 
 const liInitialState = {li: null}
 
 export function liReducer(state = liInitialState, action) {
     switch (action.type) {
-        case SET_LI:
-            return {
-                li: action.li
-            }
-        case DELETE_LI: {
-            return {
-                li: state.li.filter(el => {
-                    return el.id !== action.id
-                })
-            }
-        }
-        default:
-            return state
+      case SET_LI:
+        return {
+          li: action.li,
+        };
+      case DELETE_LI: {
+        return {
+          li: state.li.filter(el => {
+            return el.id !== action.id;
+          }),
+        };
+      }
+      case STATUS_LI: {
+        return {
+          li: state.li.map(el => {
+            if (el.id == action.id) el.active = !el.active;
+            return el
+          }),
+        };
+      }
+      default:
+        return state;
     }
 }
 
@@ -31,6 +40,13 @@ export function setLi(li) {
 export function deleteLi(id) {
     return {
         type: DELETE_LI,
+        id
+    }
+}
+
+export function changeStatusLi(id) {
+    return {
+        type: STATUS_LI,
         id
     }
 }

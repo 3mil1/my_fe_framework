@@ -4,19 +4,21 @@ import {deleteLi, setLi} from "./li_state";
 
 export function Li() {
     let state = store.getState();
-    const dispatch = store.dispatch;
+    let dispatch = store.dispatch.bind(store);
 
     const set = () => {
-        dispatch(setLi([
-            {id: 1, text: "1"},
-            {id: 2, text: "2"},
-            {id: 3, text: "3"},
-            {id: 4, text: "4"},
-        ]))
+        dispatch(
+          setLi([
+            { id: 1, text: '1' },
+            { id: 2, text: '2' },
+            { id: 3, text: '3' },
+            { id: 4, text: '4' },
+          ])
+        );
     }
 
     const deleteId = (id) => {
-        dispatch(deleteLi(id))
+        dispatch(deleteLi(id));
     }
 
     return (
