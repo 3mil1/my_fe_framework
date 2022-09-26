@@ -43,6 +43,9 @@ function Header() {
 
 
 function Todos({list}) {
+
+    // Mark all done 
+
     return (
       <section className='main' style={list == null  || list.length == 0 ? 'display:none' : ""}>
         <label htmlFor='toggle-all'>Mark all as complete</label>
@@ -57,7 +60,7 @@ function Todos({list}) {
 
 function Footer() {
 
-    //  Hash filters here
+    //  Hash filters here (active, completed, clear all)
 
     return (
         <footer className={"footer"}>
@@ -88,6 +91,9 @@ function TodoBox({todo}){
         dispatcher(changeStatusLi(todo.id));
 
     }
+
+    // editTodo (Also need to change classes when editing (extra state))
+
     return (
         <li key={todo.id}>
         <div className='view'>
