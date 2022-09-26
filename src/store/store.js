@@ -3,5 +3,5 @@ import {combineReducers, Store} from "../../framework/stateManagment";
 
 
 export const store = new Store(combineReducers({
-    li: liReducer,
+    li_page: liReducer,
 }))

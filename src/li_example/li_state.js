@@ -1,9 +1,7 @@
 const SET_LI = 'SET_LI'
 const DELETE_LI = 'DELETE_LI'
 
-const liInitialState = {
-    li: null
-}
+const liInitialState = {li: null}
 
 export function liReducer(state = liInitialState, action) {
     switch (action.type) {

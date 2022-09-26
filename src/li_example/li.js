@@ -4,7 +4,6 @@ import {deleteLi, setLi} from "./li_state";
 
 export function Li() {
     let state = store.getState();
-
     const set = () => {
         store.dispatch(setLi([
             {id: 1, text: "1"},
@@ -18,11 +17,10 @@ export function Li() {
         store.dispatch(deleteLi(id))
     }
 
-
     return (
         <section className="todoapp">
             <ul>
-                {state.li.li ? state.li.li.map(el => {
+                {state.li_page.li ? state.li_page.li.map(el => {
                     return <li key={el.id} onClick={() => {
                         deleteId(el.id)
                     }
