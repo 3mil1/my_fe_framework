@@ -1,5 +1,5 @@
 import VDom from "../framework/Vdom";
-import {store} from "./state";
+import {store} from "./store/store";
 import {App} from "./App";
 import {render} from "../framework"
 
