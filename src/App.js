@@ -1,42 +1,34 @@
 import VDom from "../framework/Vdom";
 import "./styles.css";
-import {store} from "./state";
+import {deleteLi, setLi, store} from "./state";
 
 export function App({state}) {
-
-    const add = () => {
-        store.changeState((state) => {
-            state.li.push({id: 7, text: "7"})
-        })
+    const set = () => {
+        store.dispatch(setLi([
+            {id: 1, text: "1"},
+            {id: 2, text: "2"},
+            {id: 3, text: "3"},
+            {id: 4, text: "4"},
+        ]))
     }
 
     const deleteId = (id) => {
-        store.changeState((state) => {
-            const indexOfObject = state.li.findIndex(object => {
-                return object.id === id;
-            });
-
-            state.li.splice(indexOfObject, 1)
-        })
+        store.dispatch(deleteLi(id))
     }
+
 
     return (
         <section className="todoapp">
-            {/*<Header/>*/}
-            {/*<Todos/>*/}
             <ul>
-                {state.li.map(el => {
+                {state.li.li ? state.li.li.map(el => {
                     return <li key={el.id} onClick={() => {
                         deleteId(el.id)
                     }
                     }>{el.text}</li>
-                })}
+                }) : "nothing to show"}
 
-                {/*<li key={2}>2</li>*/}
-                {/*<li key={3}>3</li>*/}
             </ul>
-
-            <button onClick={() => console.log("here")}>log</button>
+            <button onClick={() => set()}>SET LI</button>
         </section>
     )
 }

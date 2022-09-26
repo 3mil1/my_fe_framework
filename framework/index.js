@@ -59,8 +59,8 @@ function sync(virtualNode, realNode) {
 
     // delete in array
     if (virtualChildren !== undefined && realChildren !== undefined) {
-        if (virtualChildren.length > 1 && realChildren.length > 1) {
-            if (virtualChildren[0].key !== null && realChildren[0]["data-key"] !== null) {
+        if (realChildren[0] !== undefined && realChildren[0].dataset !== undefined && virtualChildren[0] !== undefined) {
+            if (virtualChildren[0].key !== null && realChildren[0].dataset.key !== undefined) {
                 let virtualArr = [];
                 virtualChildren.forEach(el => {
                     virtualArr.push(el.key)
@@ -101,6 +101,7 @@ function sync(virtualNode, realNode) {
         // Replace
         if (virtual !== undefined && real !== undefined && (virtual.type || '') !== (real.tagName || '').toLowerCase()) {
             const newReal = createRealNodeByVirtual(virtual)
+            addEventListeners(newReal, virtual.props)
             sync(virtual, newReal)
             realNode.replaceChild(newReal, real)
         }

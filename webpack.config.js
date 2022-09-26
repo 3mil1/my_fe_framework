@@ -1,10 +1,23 @@
 const path = require('path');
 
+
 const config = {
     entry: './src/index.js',
     output: {
         path: path.resolve(__dirname, 'dist'),
         filename: 'bundle.js'
+    },
+    resolve: {
+        fallback: {
+            util: require.resolve("util/"),
+            assert: require.resolve("assert/"),
+            path: require.resolve("path-browserify"),
+            url: require.resolve("url/"),
+            fs: false
+        },
+        alias: {
+            process: "process/browser"
+        }
     },
     watch: true,
     module: {
