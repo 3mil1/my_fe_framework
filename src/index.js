@@ -3,7 +3,9 @@ import {store} from "./store/store";
 import {App} from "./App";
 import {render} from "../framework"
 
-export function renderView(state) {
+export function renderView(store) {
+    const state = store.getState()
+
     render(
         <App state={state}/>,
         document.getElementById('app')
@@ -11,7 +13,7 @@ export function renderView(state) {
 }
 
 store.subscribe(() => {
-    renderView(store.getState())
+    renderView(store)
 })
 
-renderView(store.getState())
+renderView(store)
