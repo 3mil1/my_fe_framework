@@ -4,10 +4,9 @@ import {store} from "./state";
 
 export function App({state}) {
 
-    const del = () => {
+    const add = () => {
         store.changeState((state) => {
-            state.li.reverse()
-            state.li.splice(2, 1)
+            state.li.push({id: 7, text: "7"})
         })
     }
 
@@ -28,10 +27,7 @@ export function App({state}) {
             <ul>
                 {state.li.map(el => {
                     return <li key={el.id} onClick={() => {
-
                         deleteId(el.id)
-                        console.log(state.li)
-                        console.log(el)
                     }
                     }>{el.text}</li>
                 })}
@@ -40,7 +36,7 @@ export function App({state}) {
                 {/*<li key={3}>3</li>*/}
             </ul>
 
-            <button onClick={deleteId}>DEL</button>
+            <button onClick={() => console.log("here")}>log</button>
         </section>
     )
 }

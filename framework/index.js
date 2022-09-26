@@ -57,14 +57,40 @@ function sync(virtualNode, realNode) {
     const virtualChildren = virtualNode.props ? virtualNode.props.children || [] : []
     const realChildren = realNode.childNodes
 
-    for (let i = 0; i < virtualChildren.length || i < realChildren.length; i++) {
+    // delete in array
+    if (virtualChildren !== undefined && realChildren !== undefined) {
+        if (virtualChildren.length > 1 && realChildren.length > 1) {
+            if (virtualChildren[0].key !== null && realChildren[0]["data-key"] !== null) {
+                let virtualArr = [];
+                virtualChildren.forEach(el => {
+                    virtualArr.push(el.key)
+                })
+
+                let realArr = [];
+                realChildren.forEach(el => {
+                    realArr.push(el.dataset.key)
+                })
+
+                const diff = realArr.filter(x => !virtualArr.includes(+x));
+
+                for (const [key, value] of Object.entries(realChildren)) {
+                    for (const d of diff) {
+                        if (value.dataset.key === d) {
+                            realNode.removeChild(value)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    for (let i = 0; i < Math.max(virtualChildren.length, realChildren.length); i++) {
         const virtual = virtualChildren[i]
         const real = realChildren[i]
 
         // Remove
         if (virtual === undefined && real !== undefined) {
-            realNode.removeChild(realNode.lastChild)
-            // realNode.remove(real)
+            realNode.removeChild(real)
         }
 
         // Update
@@ -89,23 +115,6 @@ function sync(virtualNode, realNode) {
     }
 }
 
-function compare_keys(virtualNode, realNode) {
-    console.log(virtualNode, realNode)
-    let setOfKeys = new Set()
-    for (const node in virtualNode) {
-        setOfKeys.add(node.key)
-    }
-
-    for (const node in realNode) {
-        if (!setOfKeys.has(node.key)) {
-            realNode.remove(node)
-        }
-    }
-    console.log(virtualNode, realNode)
-    return [virtualNode, realNode]
-}
-
-
 function createRealNodeByVirtual(virtual) {
     if (typeof virtual !== 'object') {
         return document.createTextNode('')
@@ -117,7 +126,6 @@ function addEventListeners($target, props) {
     if (props !== undefined) {
         Object.keys(props).forEach(name => {
             if (isEventProp(name)) {
-                $target.removeEventListener(extractEventName(name), props[name])
                 $target.addEventListener(
                     extractEventName(name),
                     props[name]
