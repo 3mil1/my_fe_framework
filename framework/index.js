@@ -15,6 +15,10 @@ export function render(virtualDom, realDomRoot) {
 }
 
 function evaluate(virtualNode) {
+    if (virtualNode === null) {
+        return
+    }
+
     if (typeof virtualNode !== 'object') {
         return virtualNode
     }

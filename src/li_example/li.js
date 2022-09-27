@@ -4,7 +4,7 @@ import {deleteLi, setLi} from "./li_state";
 
 export function Li() {
     let state = store.getState();
-    const dispatch = store.dispatch;
+    const dispatch = store.dispatch.bind(store)
 
     const set = () => {
         dispatch(setLi([

@@ -1,54 +1,36 @@
 import VDom from "../framework/Vdom";
 import "./styles.css";
 import {Li} from "./li_example/li";
+import {Router} from "./router/router";
 
 export function App({state}) {
     return (
-        <Li/>
+        <Router/>
     )
 }
 
-function Header() {
-    return (
-        <header className="header">
-            <h1>todos</h1>
-            <label htmlFor="">
-                <input type="input" className="new-todo" placeholder="What needs to be done?" autoFocus/>
-            </label>
-        </header>
-    )
-}
+// function Nav() {
+//     return (
+//         <nav>
+//             <ul>
+//                 <li><Link to="/">LI</Link></li>
+//                 <li><Link to="/page_not_exist">404 page</Link></li>
+//             </ul>
+//         </nav>
+//     )
+// }
 
 
-function Todos() {
-    return (
-        <section className="main" style={"display:none"}>
-            <input type="checkbox" id="toggle-all" className={"toggle-all"}/>
-            <label htmlFor="toggle-all">Mark all as complete</label>
-            <ul className={"todo-list"}></ul>
-            <Footer/>
-        </section>
-    )
-}
+// function Content() {
+//     return (
+//         <Switch>
+//             <Route path="/" exact>
+//                 <Li/>
+//             </Route>
+//             <Route path=".*">
+//                 <NotFound/>
+//             </Route>
+//         </Switch>
+//     )
+// }
 
-function Footer() {
-
-    return (
-        <footer className={"footer"}>
-            <span className={"todo-count"}>
-                <ul className={"filters"}>
-                    <il>
-                        <a href="#/" className={"selected"}>All</a>
-                    </il>
-                    <il>
-                        <a href="#/active">Active</a>
-                    </il>
-                    <il>
-                        <a href="#/completed">Completed</a>
-                    </il>
-                </ul>
-                <button className={"clear-completed"}>Clear completed</button>
-            </span>
-        </footer>
-    )
-}
