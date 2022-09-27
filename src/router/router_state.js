@@ -1,6 +1,6 @@
 const SET_LOCATION = 'SET_LOCATION'
 
-const locationInitialState = {current: "/"}
+const locationInitialState = {current: window.location.pathname}
 
 export function locationReducer(state = locationInitialState, action) {
     switch (action.type) {

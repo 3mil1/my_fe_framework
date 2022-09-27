@@ -1,10 +1,8 @@
 import VDom from "../../framework/Vdom";
-import {store} from "../store/store";
+import {store, history} from "../store/store";
 import {setLocation} from "./router_state";
-import {createBrowserHistory} from "../../framework/router";
 import {Li} from "../li_example/li";
 
-const history = new createBrowserHistory
 
 export function Router() {
     let state = store.getState();
@@ -15,9 +13,7 @@ export function Router() {
         dispatch(setLocation(location))
     }
 
-    if (history.location !== location) {
-        dispatch(setLocation(history.location))
-    }
+    window.addEventListener('popstate', () => {dispatch(setLocation(window.location.pathname))}, false)
 
     return (
         <div>
@@ -27,8 +23,8 @@ export function Router() {
             </ul>
 
             <div>
-                <Route path={"/"} location={location}><Li/></Route>
                 <Route path={"/page_not_exist"} location={location}><NotFound/></Route>
+                <Route path={"/"} location={location}><Li/></Route>
             </div>
         </div>
     )
@@ -37,7 +33,6 @@ export function Router() {
 function NotFound() {
     return <div>Not found!</div>
 }
-
 
 export function Link({to, children, navigate, history}) {
     const href = to ? history.createHref(to) : ''
