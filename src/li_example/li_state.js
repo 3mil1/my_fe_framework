@@ -1,8 +1,13 @@
+import {localStorage} from '../store/localStorage'
+
 const SET_LI = 'SET_LI'
 const DELETE_LI = 'DELETE_LI'
 const STATUS_LI = 'STATUS_LI';
 
-const liInitialState = {li: null}
+// localStorage.removeAll()
+// Set Initial list from local storage
+const list = localStorage.getall()
+const liInitialState = {li: list}
 
 export function liReducer(state = liInitialState, action) {
     switch (action.type) {
@@ -14,7 +19,7 @@ export function liReducer(state = liInitialState, action) {
         return {
           li: state.li.filter(el => {
             return el.id !== action.id;
-          }),
+          })
         };
       }
       case STATUS_LI: {

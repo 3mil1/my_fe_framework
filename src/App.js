@@ -3,17 +3,21 @@ import "./styles.css";
 import {Li} from "./li_example/li";
 import { store } from "./store/store";
 import { deleteLi, setLi, changeStatusLi } from './li_example/li_state';
-let count = 0;
+import { localStorage } from "../src/store/localStorage";
+
+// let count = 0;
 const dispatcher = store.dispatch.bind(store);
 
 export function App({state}) {
-    console.log(state.li_page);
-    
-    
+    console.log("....", state.li_page);
+    //set changes in localStorage
+    localStorage.store(state.li_page.li)
+
     return (
       <section className={'todoapp'}>
         <Header />
         <Todos list={state.li_page.li} />
+        <GeneralFooter />
       </section>
     );
 }
@@ -53,31 +57,34 @@ function Todos({list}) {
         <ul className={'todo-list'}>
           {list ? list.map(el => { return <TodoBox todo={el} /> }) : 'nothing to show' }
         </ul>
-        <Footer />
+        <Footer list = {list}/>
       </section>
     );
 }
 
-function Footer() {
+function Footer({list}) {
 
     //  Hash filters here (active, completed, clear all)
-
+    let active
+    if (list != null){
+        active = list.filter((el) => {return el.active == true}).length
+    }
     return (
         <footer className={"footer"}>
-            <span className={"todo-count"}>
-                <ul className={"filters"}>
-                    <il>
-                        <a href="#/" className={"selected"}>All</a>
-                    </il>
-                    <il>
-                        <a href="#/active">Active</a>
-                    </il>
-                    <il>
-                        <a href="#/completed">Completed</a>
-                    </il>
-                </ul>
-                <button className={"clear-completed"}>Clear completed</button>
+            <span className={"todo-count"}> <strong>{active}</strong>  items left
             </span>
+            <ul className={"filters"}>
+                <il>
+                    <a href="#/" className={"selected"}>All</a>
+                </il>
+                <il>
+                    <a href="#/active">Active</a>
+                </il>
+                <il>
+                    <a href="#/completed">Completed</a>
+                </il>
+            </ul>
+            <button className={"clear-completed"}>Clear completed</button>
         </footer>
     )
 }
@@ -102,7 +109,7 @@ function TodoBox({todo}){
             type='checkbox'
             onClick={changeStatus}
             ></input>
-            <label> {todo.text} </label>
+            <label ondblclick={myFunction}> {todo.text} </label>
             <button className='destroy' onClick={removeTodo}></button>
         </div>
         </li>
@@ -110,10 +117,31 @@ function TodoBox({todo}){
 }
 
 const newLi = (value) => { 
-    count++;  
+    // count++;  
     return {
-      id: count,
+      id: Date.now(),
       text: value,
       active: true,
     };
+}
+
+
+function GeneralFooter() {
+    return (
+        <footer className="info">
+            <p>Double-click to edit a todo</p>
+            <p> Created by Emil & Silver & Valeia & Anna</p>
+        </footer>
+        
+        )
+}
+
+function myFunction(){
+    console.log("VAJUTASIN TOPPELT")
+    //TODO 
+    /*
+    - muuda label input`iks koos default selle sisuga
+    - lisa event handler-> onchange -> save()
+    
+    */ 
 }
