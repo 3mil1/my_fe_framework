@@ -44,6 +44,7 @@ function sync(virtualNode, realNode) {
             if (realNode[name] !== value) {
                 realNode[name] = value
             }
+
         })
     }
     if (virtualNode.key) {
