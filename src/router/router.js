@@ -3,6 +3,7 @@ import {store, history} from "../store/store";
 import {setLocation} from "./router_state";
 import {Li} from "../li_example/li";
 
+let count = 0
 
 export function Router() {
     let state = store.getState();
@@ -12,9 +13,14 @@ export function Router() {
     const navigate = (location) => {
         dispatch(setLocation(location))
     }
-
-    window.addEventListener('popstate', () => {dispatch(setLocation(window.location.pathname))}, false)
-
+    if (count < 1) {
+        // window.location.replace(window.location.pathname);
+        window.addEventListener('popstate',() => {
+                count++
+                dispatch(setLocation(window.location.pathname));
+        });
+    }
+            
     return (
         <div>
             <ul>
