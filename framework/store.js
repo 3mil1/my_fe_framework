@@ -1,9 +1,9 @@
 import {createReducers} from "./reducer";
 
-class Store {
+export class Store {
     constructor(reducer, initialState) {
-        this.state = reducer(initialState, {type: null});
         this.reducer = reducer;
+        this.state = reducer(initialState, { type: null });
         this.listeners = [];
     }
 
@@ -19,17 +19,16 @@ class Store {
         }
     }
 
-    setState(state) {
-        this.state = (typeof state === "function" ? state(this.state) : state);
-        this.listeners.forEach((listener) => listener());
-    }
+    // setState(state) {
+    //     this.state = (typeof state === "function" ? state(this.state) : state);
+    //     this.listeners.forEach((listener) => listener());
+    // }
 
     //could be used instead of setState
     dispatch(action) {
-        console.log("2", action);
+        console.log("dispatch", action);
         this.state = this.reducer(this.state, action);
         this.listeners.forEach((listener) => listener());
     }
 }
 
-export const store = new Store(createReducers({}));

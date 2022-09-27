@@ -1,7 +1,8 @@
 import VDom from "../framework/Vdom";
-import {store} from "../framework/store";
+import {store} from "./state";
 import {App} from "./App";
 import {render} from "../framework"
+import {todoInitialState} from "./state";
 
 export function renderView(state) {
     render(
@@ -11,10 +12,11 @@ export function renderView(state) {
 }
 
 store.subscribe(() => {
-    renderView(store.getState())
+    // console.log("Rerender");
+    renderView(store.getState());
 })
 
-renderView(store.getState())
+renderView(store.getState());
 
 // setInterval(() => {
 //     store.setState((state) => {
