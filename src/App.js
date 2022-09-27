@@ -69,6 +69,7 @@ function Footer({list}) {
     if (list != null){
         active = list.filter((el) => {return el.active == true}).length
     }
+    // console.log("active", active)
     return (
         <footer className={"footer"}>
             <span className={"todo-count"}> <strong>{active}</strong>  items left
@@ -102,11 +103,12 @@ function TodoBox({todo}){
     // editTodo (Also need to change classes when editing (extra state))
 
     return (
-        <li key={todo.id}>
+        <li key={todo.id} className={todo.active ? "" : "completed" }> 
         <div className='view'>
             <input
             className='toggle'
             type='checkbox'
+            checked = {todo.active ? false : true}
             onClick={changeStatus}
             ></input>
             <label ondblclick={myFunction}> {todo.text} </label>
