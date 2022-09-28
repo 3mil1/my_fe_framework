@@ -8,6 +8,9 @@ import {createBrowserHistory} from "../framework/router";
 export const history = new createBrowserHistory
 history.listen(store.dispatch.bind(store), setLocation)
 
+/**
+ * render the App to the page
+ */
 export function renderView(store) {
     const state = store.getState()
     render(

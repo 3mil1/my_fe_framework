@@ -1,3 +1,4 @@
+
 export class Store {
     constructor(reducer, initialState) {
         this.reducer = reducer
