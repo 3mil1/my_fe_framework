@@ -9,7 +9,6 @@ import { localStorage } from "../src/store/localStorage";
 const dispatcher = store.dispatch.bind(store);
 
 export function App({state}) {
-    console.log("....", state.li_page);
     //set changes in localStorage
     localStorage.store(state.li_page.li)
 
@@ -47,9 +46,6 @@ function Header() {
 
 
 function Todos({list}) {
-
-    // Mark all done 
-
     return (
       <section className='main' style={list == null  || list.length == 0 ? 'display:none' : ""}>
         <label htmlFor='toggle-all'>Mark all as complete</label>
@@ -63,13 +59,10 @@ function Todos({list}) {
 }
 
 function Footer({list}) {
-
-    //  Hash filters here (active, completed, clear all)
     let active
     if (list != null){
         active = list.filter((el) => {return el.active == true}).length
     }
-    // console.log("active", active)
     return (
         <footer className={"footer"}>
             <span className={"todo-count"}> <strong>{active}</strong>  items left
@@ -92,38 +85,65 @@ function Footer({list}) {
 
 
 function TodoBox({todo}){
+    const editTodo = () =>{
+        todo.isEditing = true
+        dispatcher(todo)  
+    }
+
     const removeTodo = () => {
         dispatcher(deleteLi(todo.id))
     }
     const changeStatus = () => {
         dispatcher(changeStatusLi(todo.id));
-
     }
 
-    // editTodo (Also need to change classes when editing (extra state))
+    const stopEditing= (e) =>{
+        if (e.key == 'Enter'){
+            let input = e.currentTarget.value.trim()
+            todo.isEditing = false
+            todo.text = input
+            dispatcher(todo) 
+        }
+    }
 
-    return (
-        <li key={todo.id} className={todo.active ? "" : "completed" }> 
-        <div className='view'>
-            <input
-            className='toggle'
-            type='checkbox'
-            checked = {todo.active ? false : true}
-            onClick={changeStatus}
-            ></input>
-            <label ondblclick={myFunction}> {todo.text} </label>
-            <button className='destroy' onClick={removeTodo}></button>
-        </div>
-        </li>
-    );
+    if (todo.isEditing){
+        return (
+            <li key={todo.id} className={todo.active ? "" : "completed" }> 
+            <div className='view'>
+                <input
+                className='toggle'
+                type='checkbox'
+                checked = {todo.active ? false : true}
+                onClick={changeStatus}
+                ></input>
+                <input className ="isEditing" autoFocus value = {todo.text} onKeyup={stopEditing}></input>
+            </div>
+            </li>
+        )
+    } else {
+        return (
+            <li key={todo.id} className={todo.active ? "" : "completed" }> 
+            <div className='view'>
+                <input
+                className='toggle'
+                type='checkbox'
+                checked = {todo.active ? false : true}
+                onClick={changeStatus}
+                ></input>
+                <label ondblclick={editTodo}> {todo.text} </label>
+                <button className='destroy' onClick={removeTodo}></button>
+            </div>
+            </li>
+        );
+    }
 }
 
 const newLi = (value) => { 
-    // count++;  
     return {
       id: Date.now(),
       text: value,
       active: true,
+      isEditing: false
     };
 }
 
@@ -136,14 +156,4 @@ function GeneralFooter() {
         </footer>
         
         )
-}
-
-function myFunction(){
-    console.log("VAJUTASIN TOPPELT")
-    //TODO 
-    /*
-    - muuda label input`iks koos default selle sisuga
-    - lisa event handler-> onchange -> save()
-    
-    */ 
 }
