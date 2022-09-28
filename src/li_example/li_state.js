@@ -6,7 +6,7 @@ const STATUS_LI = 'STATUS_LI';
 
 // localStorage.removeAll()
 // Set Initial list from local storage
-const list = localStorage.getall()
+const list = localStorage.getAll()
 const liInitialState = {li: list}
 
 export function liReducer(state = liInitialState, action) {
@@ -25,7 +25,7 @@ export function liReducer(state = liInitialState, action) {
       case STATUS_LI: {
         return {
           li: state.li.map(el => {
-            if (el.id == action.id) el.active = !el.active;
+            if (el.id === action.id) el.active = !el.active;
             return el
           }),
         };

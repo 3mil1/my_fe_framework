@@ -1,23 +1,22 @@
 export class LocalStorage {
-  constructor(key) {
-    this.key = key;
-    this.list = this.getall();
-  }
-
-  getall() {
-    let stored = localStorage.getItem(this.key);
-    if (stored.length == 2 || stored == "undefined"){
-        return []
-    } else {
-        return JSON.parse(stored)
+    constructor(key) {
+        this.key = key;
     }
-  }
 
-  store(el) {
-    localStorage.setItem(this.key, JSON.stringify(el));
-  }
+    getAll() {
+        let stored = localStorage.getItem(this.key);
+        if (stored === "undefined") {
+            return []
+        } else {
+            return JSON.parse(stored)
+        }
+    }
 
-  removeAll() {
-    localStorage.setItem(this.key, JSON.stringify(""))
-  }
+    store(el) {
+        localStorage.setItem(this.key, JSON.stringify(el));
+    }
+
+    removeAll() {
+        localStorage.setItem(this.key, JSON.stringify(""))
+    }
 }

@@ -1,31 +1,27 @@
 import VDom from "../framework/Vdom";
 import "./styles.css";
-import {Li} from "./li_example/li";
 import {store} from "./store/store";
 import {setLocation} from "./router/router_state";
-import {Link, Route} from "../framework/router";
-import {history} from "./index";
-import { deleteLi, setLi, changeStatusLi } from './li_example/li_state';
-import { localStorage } from "../src/store/localStorage";
+import {localStorage} from "./store/localStorage";
+import {changeStatusTODO, deleteTODO, setTODO} from "./todoMVC/todo_state";
 
-const dispatcher = store.dispatch.bind(store);
+const dispatch = store.dispatch.bind(store)
 
 export function App() {
     let state = store.getState();
     let location = state.location.current
-    const dispatch = store.dispatch.bind(store)
 
     const navigate = (location) => {
         dispatch(setLocation(location))
     }
 
     //set changes in localStorage
-    localStorage.store(state.li_page.li)
+    localStorage.store(state.todo.li)
 
     return (
         <section className={'todoapp'}>
             <Header/>
-            <Todos list={state.li_page.li}/>
+            <Todos list={state.todo.li}/>
             <GeneralFooter/>
         </section>
     );
@@ -34,11 +30,11 @@ export function App() {
 function Header() {
     const addTodo = (e) => {
         let input = e.currentTarget.value.trim()
-        if (e.key == 'Enter'){
-            if (input){
-                let storeList = store.getState().li_page.li ? store.getState().li_page.li : [];
+        if (e.key === 'Enter') {
+            if (input) {
+                let storeList = store.getState().todo.li ? store.getState().todo.li : [];
                 let newArr = [...storeList, newLi(input)];
-                dispatcher(setLi(newArr));
+                dispatch(setTODO(newArr));
             }
             e.currentTarget.value = '';
         }
@@ -48,30 +44,33 @@ function Header() {
         <header className={"header"}>
             <h1>todos</h1>
             {/* <label htmlFor=""> */}
-            <input type="input" className="new-todo" placeholder="What needs to be done?" autoFocus onKeyup={addTodo}/>
+            <input type="input" className="new-todo" placeholder="What needs to be done?" autoFocus onKeyUp={addTodo}/>
             {/* </label> */}
         </header>
     )
 }
 
-
 function Todos({list}) {
     return (
-        <section className='main' style={list == null  || list.length == 0 ? 'display:none' : ""}>
+        <section className='main' style={list == null || list.length === 0 ? 'display:none' : ""}>
             <label htmlFor='toggle-all'>Mark all as complete</label>
-            <input type='checkbox' id='toggle-all' className={'toggle-all'} />
+            <input type='checkbox' id='toggle-all' className={'toggle-all'}/>
             <ul className={'todo-list'}>
-                {list ? list.map(el => { return <TodoBox todo={el} /> }) : 'nothing to show' }
+                {list ? list.map(el => {
+                    return <TodoBox todo={el}/>
+                }) : 'nothing to show'}
             </ul>
-            <Footer list = {list}/>
+            <Footer list={list}/>
         </section>
     );
 }
 
 function Footer({list}) {
     let active
-    if (list != null){
-        active = list.filter((el) => {return el.active == true}).length
+    if (list != null) {
+        active = list.filter((el) => {
+            return el.active === true
+        }).length
     }
     return (
         <footer className={"footer"}>
@@ -94,58 +93,48 @@ function Footer({list}) {
 }
 
 
-function TodoBox({todo}){
-    const editTodo = () =>{
+function TodoBox({todo}) {
+    const editTodo = () => {
         todo.isEditing = true
-        dispatcher(todo)
+        dispatch(todo)
     }
 
     const removeTodo = () => {
-        dispatcher(deleteLi(todo.id))
+        dispatch(deleteTODO(todo.id))
     }
     const changeStatus = () => {
-        dispatcher(changeStatusLi(todo.id));
+        dispatch(changeStatusTODO(todo.id));
     }
 
-    const stopEditing= (e) =>{
-        if (e.key == 'Enter'){
+    const stopEditing = (e) => {
+        if (e.key === 'Enter') {
             let input = e.currentTarget.value.trim()
             todo.isEditing = false
             todo.text = input
-            dispatcher(todo)
+            dispatch(todo)
         }
     }
 
-    if (todo.isEditing){
-        return (
-            <li key={todo.id} className={todo.active ? "" : "completed" }>
-                <div className='view'>
-                    <input
-                        className='toggle'
-                        type='checkbox'
-                        checked = {todo.active ? false : true}
-                        onClick={changeStatus}
-                    ></input>
-                    <input className ="isEditing" autoFocus value = {todo.text} onKeyup={stopEditing}></input>
-                </div>
-            </li>
-        )
-    } else {
-        return (
-            <li key={todo.id} className={todo.active ? "" : "completed" }>
-                <div className='view'>
-                    <input
-                        className='toggle'
-                        type='checkbox'
-                        checked = {todo.active ? false : true}
-                        onClick={changeStatus}
-                    ></input>
-                    <label ondblclick={editTodo}> {todo.text} </label>
-                    <button className='destroy' onClick={removeTodo}></button>
-                </div>
-            </li>
-        );
-    }
+
+    return (
+        <li key={todo.id} className={todo.active ? "" : "completed"}>
+            <div className='view'>
+                <input
+                    className='toggle'
+                    type='checkbox'
+                    checked={!todo.active}
+                    onClick={changeStatus}
+                ></input>
+                {todo.isEditing
+                    ? <input className="isEditing" autoFocus value={todo.text} onKeyUp={stopEditing}></input>
+                    : <div>
+                        <label ondblclick={editTodo}> {todo.text} </label>
+                        <button className='destroy' onClick={removeTodo}></button>
+                    </div>
+                }
+            </div>
+        </li>
+    );
 }
 
 const newLi = (value) => {
