@@ -1,4 +1,4 @@
-import VDom from "../framework/Vdom";
+import VDom, {Fragment} from "../framework/Vdom";
 import "./styles.css";
 import {store} from "./store/store";
 import {setLocation} from "./router/router_state";
@@ -60,6 +60,7 @@ function Todos({list}) {
                     return <TodoBox todo={el}/>
                 }) : 'nothing to show'}
             </ul>
+
             <Footer list={list}/>
         </section>
     );
@@ -127,10 +128,10 @@ function TodoBox({todo}) {
                 ></input>
                 {todo.isEditing
                     ? <input className="isEditing" autoFocus value={todo.text} onKeyUp={stopEditing}></input>
-                    : <div>
+                    : <Fragment>
                         <label ondblclick={editTodo}> {todo.text} </label>
                         <button className='destroy' onClick={removeTodo}></button>
-                    </div>
+                    </Fragment>
                 }
             </div>
         </li>
