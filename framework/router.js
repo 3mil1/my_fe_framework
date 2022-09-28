@@ -1,5 +1,6 @@
 import VDom from "../framework/Vdom";
-
+import { setLocation } from "../src/router/router_state";
+import { store } from "../src/store/store";
 export class createBrowserHistory {
     get location() {
         const state = window.history.state
@@ -23,14 +24,20 @@ export class createBrowserHistory {
     }
 }
 
-export function Link({to, children, navigate, history}) {
-    const href = to ? history.createHref(to) : ''
-    const onClick = (event) => {
-        event.preventDefault()
-        navigate(to)
-        history.push(to)
-    }
-    return <a href={href} onClick={onClick}>{children}</a>
+export function Link({ to, children, navigate, history }) {
+  let dispatch = store.dispatch.bind(store);
+  const href = to ? history.createHref(to) : '';
+  const onClick = event => {
+    event.preventDefault();
+    // navigate(to);
+    dispatch(setLocation(to));
+    history.push(to);
+  };
+  return (
+    <a href={href} onClick={onClick}>
+      {children}
+    </a>
+  );
 }
 
 export function Route({path, location, children}) {

@@ -17,6 +17,6 @@ export class LocalStorage {
     }
 
     removeAll() {
-        localStorage.setItem(this.key, JSON.stringify(""))
+        localStorage.setItem(this.key, JSON.stringify([]))
     }
 }
