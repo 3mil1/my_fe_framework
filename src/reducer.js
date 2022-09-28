@@ -4,6 +4,8 @@ export const ADD_TODO = "ADD_TODO";
 export const COMPLETE_TODO = "COMPLETE_TODO";
 export const COMPLETE_ALL = "COMPLETE_ALL";
 export const DELETE_TODO = "DELETE_TODO";
+export const EDITE_TODO = "EDITE_TODO";
+export const DELETE_ALL = "DELETE_ALL";
 
 export function todoReducer(state = todoInitialState, action) {
     console.log("Action", action);
@@ -20,22 +22,30 @@ export function todoReducer(state = todoInitialState, action) {
             return state;
 
         case COMPLETE_ALL:
-            console.log("Complete all", state.todos);
+            // console.log("Complete all", state.todos);
             let completed = state.todos.some(todo => !todo.completed)
-            let s = {
+            // console.log("CA after map", s);
+            return  {
                 todos: state.todos.map(todo => {
-                return {
-                    ...todo,
-                    completed: completed,
-                }
-            })}
-            console.log("CA after map", s);
-            return  s;
-        case DELETE_TODO: {
+                    return {
+                        ...todo,
+                        completed: completed,
+                    }
+                })
+            };
+        case EDITE_TODO:
+            const idx = state.todos.findIndex(data => data.id === action.id);
+            if (idx >= 0) {
+                state.todos[idx].editing = !state.todos[idx].editing;
+            }
+            return state;
+        case DELETE_TODO:
             console.log(state.todos);
            state.todos = state.todos.filter(data => data.id !== action.id);
            return state;
-        }
+        case DELETE_ALL:
+            state.todos = [];
+            return state;
         default:
             return state;
     }
@@ -70,6 +80,12 @@ export function DeleteTodo(id)  {
     }
 }
 
+export function DeleteAll() {
+    return {
+        type: DELETE_ALL,
+    }
+}
+
 export function CompleteTodo(id) {
     return {
         type: COMPLETE_TODO,
@@ -80,6 +96,13 @@ export function CompleteTodo(id) {
 export function CompleteAll() {
     return {
         type: COMPLETE_ALL,
+    }
+}
+
+export function EditeTodo(id) {
+    return{
+        type: EDITE_TODO,
+        id
     }
 }
 

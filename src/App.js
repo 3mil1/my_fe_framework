@@ -1,6 +1,15 @@
 import VDom from "../framework/Vdom";
 import "./styles.css";
-import {AddTodo, CompleteAll, CompleteTodo, DeleteTodo, SwitchFilter, todoReducer} from "./reducer";
+import {
+    AddTodo,
+    CompleteAll,
+    CompleteTodo,
+    DeleteAll,
+    DeleteTodo,
+    EditeTodo,
+    SwitchFilter,
+    todoReducer
+} from "./reducer";
 import {FILTER_ACTIVE, FILTER_ALL, FILTER_COMPLETED, store} from "./state";
 import {todoInitialState} from "./state";
 
@@ -54,9 +63,11 @@ function Todos() {
             <ul className={"todo-list"}>
                 {todos
                     ? todos.map((todo) => {
+                        //todo
+                        //add case to change class while editing
                    return (
-                       <li className={todo.completed ? "todo-list completed" : "todo-list"} id={todo.id}  key={todo.id}
-                       ondblclick={() => {console.log("CLICKED!")}}>
+                       <li className={`todo-list ${todo.completed ? "completed " : ""}${todo.editing ? "editing" : ""}`} id={todo.id}  key={todo.id}
+                       ondblclick={() => {store.dispatch(EditeTodo(todo.id))}}>
                        <div className={"view"}>
                            <input type={"checkbox"} className={"toggle"} checked={todo.completed} onclick = { () => {
                                store.dispatch(CompleteTodo(todo.id));
@@ -76,9 +87,11 @@ function Todos() {
 }
 
 function Footer() {
-    const todoCount = store.getState().task.todos.filter(todo => !todo.completed).length;
+    const currentTodos = store.getState().task.todos
+    const todoCount = currentTodos.filter(todo => !todo.completed).length;
     const currentFilter = store.getState().filters.activeFilter;
-    console.log("CF", currentFilter);
+    const isCompletedAll = currentTodos.length > 0 ? currentTodos.every(todo => todo.completed) : false;
+    console.log("Completed all?", isCompletedAll);
     return (
         <footer className={"footer"}>
             <span className={"todo-count"}>{todoCount} {todoCount === 1 ? "item" : "items"} left</span>
@@ -102,7 +115,9 @@ function Footer() {
                         </a>
                     </li>
                 </ul>
-                <button className={"clear-completed"} style={"display: none"}>Clear completed</button>
+                <button className={"clear-completed"} style={(isCompletedAll ? "" : "display: none")}
+                onclick={() => store.dispatch(DeleteAll())}
+                >Clear completed</button>
         </footer>
     )
 }
@@ -116,6 +131,7 @@ function newTodo(name)  {
         id,
         name,
         completed: false,
+        editing: false,
     }
 }
 
