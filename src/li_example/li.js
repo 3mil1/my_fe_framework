@@ -31,7 +31,6 @@ export function Li() {
                         }>{el.text}</li>
                     })
                     : "nothing to show"}
-
             </ul>
             <button onClick={() => set()}>SET LI</button>
         </section>

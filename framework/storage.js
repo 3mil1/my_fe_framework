@@ -6,7 +6,6 @@ export class LocalStorage {
 
   getall() {
     let stored = localStorage.getItem(this.key);
-    // console.log("STORED IN LS", this.key, stored, stored.length);
     if (stored.length == 2 || stored == "undefined"){
         return []
     } else {

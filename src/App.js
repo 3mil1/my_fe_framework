@@ -109,30 +109,30 @@ function TodoBox({todo}){
     if (todo.isEditing){
         return (
             <li key={todo.id} className={todo.active ? "" : "completed" }> 
-            <div className='view'>
-                <input
-                className='toggle'
-                type='checkbox'
-                checked = {todo.active ? false : true}
-                onClick={changeStatus}
-                ></input>
-                <input className ="isEditing" autoFocus value = {todo.text} onKeyup={stopEditing}></input>
-            </div>
+                <div className='view'>
+                    <input
+                    className='toggle'
+                    type='checkbox'
+                    checked = {todo.active ? false : true}
+                    onClick={changeStatus}
+                    ></input>
+                    <input className ="isEditing" autoFocus value = {todo.text} onKeyup={stopEditing}></input>
+                </div>
             </li>
         )
     } else {
         return (
             <li key={todo.id} className={todo.active ? "" : "completed" }> 
-            <div className='view'>
-                <input
-                className='toggle'
-                type='checkbox'
-                checked = {todo.active ? false : true}
-                onClick={changeStatus}
-                ></input>
-                <label ondblclick={editTodo}> {todo.text} </label>
-                <button className='destroy' onClick={removeTodo}></button>
-            </div>
+                <div className='view'>
+                    <input
+                    className='toggle'
+                    type='checkbox'
+                    checked = {todo.active ? false : true}
+                    onClick={changeStatus}
+                    ></input>
+                    <label ondblclick={editTodo}> {todo.text} </label>
+                    <button className='destroy' onClick={removeTodo}></button>
+                </div>
             </li>
         );
     }
@@ -153,7 +153,6 @@ function GeneralFooter() {
         <footer className="info">
             <p>Double-click to edit a todo</p>
             <p> Created by Emil & Silver & Valeia & Anna</p>
-        </footer>
-        
-        )
+        </footer>    
+    )
 }
