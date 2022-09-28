@@ -78,15 +78,15 @@ function Footer({list}) {
             <span className={"todo-count"}> <strong>{active}</strong>  items left
             </span>
             <ul className={"filters"}>
-                <il>
+                <li>
                     <a href="#/" className={"selected"}>All</a>
-                </il>
-                <il>
+                </li>
+                <li>
                     <a href="#/active">Active</a>
-                </il>
-                <il>
+                </li>
+                <li>
                     <a href="#/completed">Completed</a>
-                </il>
+                </li>
             </ul>
             <button className={"clear-completed"}>Clear completed</button>
         </footer>
