@@ -1,7 +1,6 @@
 import VDom from '../framework/Vdom';
 import './styles.css';
 import { store } from './store/store';
-import { setLocation } from './router/router_state';
 import { localStorage } from './store/localStorage';
 import { changeStatusTODO, deleteTODO, setTODO } from './todoMVC/todo_state';
 import { Link } from '../framework/router';
@@ -12,13 +11,8 @@ const dispatch = store.dispatch.bind(store);
 
 export function App() {
   let state = store.getState();
-  let location = state.location.current;
    let todos = state.todo.li;
    let activeTodos = todos.filter(todo => todo.active).length;
-
-  const navigate = location => {
-    dispatch(setLocation(location));
-  };
 
   //set changes in localStorage
   localStorage.store(state.todo.li);
@@ -38,10 +32,8 @@ function Header() {
     let input = e.currentTarget.value.trim();
     if (e.key === 'Enter') {
       if (input) {
-        let storeList = store.getState().todo.li
-          ? store.getState().todo.li
-          : [];
-        let newArr = [...storeList, newLi(input)];
+        let storeList = store.getState().todo.li ? store.getState().todo.li : [];
+        let newArr = [...storeList, newTodo(input)];
         dispatch(setTODO(newArr));
       }
       e.currentTarget.value = '';
@@ -65,64 +57,55 @@ function Header() {
 }
 
 function Todos({ list }) {
-     let currentPage = store.state.location.current.substring(1);
-     switch (currentPage) {
-       case 'active':
-         list = list.filter(el => el.active);
-         break;
-       case 'completed':
-         list = list.filter(el => !el.active);
-         break;
-       default:
-         list = store.state.todo.li;
-         break;
-     }
+    let currentPage = store.state.location.current.substring(1);
+    switch (currentPage) {
+        case 'active':
+            list = list.filter(el => el.active);
+            break;
+        case 'completed':
+            list = list.filter(el => !el.active);
+            break;
+        default:
+            list = store.state.todo.li;
+            break;
+    }
 
-
-  return (
-    <section
-      className='main'
-      style={list == null || list.length === 0 ? 'display:none' : ''}
-    >
-      <label htmlFor='toggle-all'>Mark all as complete</label>
-      <input type='checkbox' id='toggle-all' className={'toggle-all'} />
-      <ul className={'todo-list'}>
-        {list
-          ? list.map(el => {
-              return <TodoBox todo={el} />;
-            })
-          : 'nothing to show'}
-      </ul>
-
-    </section>
-  );
+    return (
+        <section className='main' style={list == null || list.length === 0 ? 'display:none' : ''}>
+        <label htmlFor='toggle-all'>Mark all as complete</label>
+        <input type='checkbox' id='toggle-all' className={'toggle-all'} />
+        <ul className={'todo-list'}>
+            {list ? list.map(el => { return <TodoBox todo={el} /> }) : 'nothing to show'}
+        </ul>
+        </section>
+    );
 }
 
 function Footer({ activeCount }) {
     const clearAll = () => {
-      localStorage.removeAll();
-      localStorage.store([]);
+        localStorage.removeAll();
+        dispatch(setTODO([]));
     };
     
-  return (
-    <footer className={'footer'}>
-      <span className={'todo-count'}>
-        <strong>{activeCount}</strong> items left
-      </span>
-      
-      <ul className={'filters'}>
-        <li><Link history={history} to='/'>  All</Link></li>
-        <li><Link history={history} to='/active'>  Active</Link></li>
-        <li><Link history={history} to='/completed'>  Completed</Link></li>
-      </ul>
+    return (
+        <footer className={'footer'}>
+        <span className={'todo-count'}>
+            <strong>{activeCount}</strong> items left
+        </span>
 
-      <button className={'clear-completed'} onClick={clearAll}>Clear completed</button>
+        <ul className={'filters'}>
+            <li><Link history={history} to='/'>  All</Link></li>
+            <li><Link history={history} to='/active'>  Active</Link></li>
+            <li><Link history={history} to='/completed'>  Completed</Link></li>
+        </ul>
 
-      {/* <Route path={'/active'} location={location}>
-        <div>hallejualajjs</div>
-      </Route> */}
-    </footer>
-  );
+        <button className={'clear-completed'} onClick={clearAll}>Clear completed</button>
+
+        {/* <Route path={'/active'} location={location}>
+            <div>hallejualajjs</div>
+        </Route> */}
+        </footer>
+    );
 }
 
 function TodoBox({ todo }) {
@@ -131,50 +114,40 @@ function TodoBox({ todo }) {
     dispatch(todo);
   };
 
-  const removeTodo = () => {
-    dispatch(deleteTODO(todo.id));
-  };
-  const changeStatus = () => {
-    dispatch(changeStatusTODO(todo.id));
-  };
+  const removeTodo = () => { dispatch(deleteTODO(todo.id))};
+  const changeStatus = () => { dispatch(changeStatusTODO(todo.id))};
 
   const stopEditing = e => {
     if (e.key === 'Enter') {
-      let input = e.currentTarget.value.trim();
-      todo.isEditing = false;
-      todo.text = input;
-      dispatch(todo);
+        let input = e.currentTarget.value.trim();
+        todo.isEditing = false;
+        todo.text = input;
+        return input != "" ?  dispatch(todo) : removeTodo(todo.id)
+    }
+    if (e.key == 'Escape'){
+        todo.isEditing = false;
+        return dispatch(todo);
     }
   };
 
   return (
     <li key={todo.id} className={todo.active ? '' : 'completed'}>
       <div className='view'>
-        <input
-          className='toggle'
-          type='checkbox'
-          checked={!todo.active}
-          onClick={changeStatus}
-        ></input>
-        {todo.isEditing ? (
-          <input
-            className='isEditing'
-            autoFocus
-            value={todo.text}
-            onKeyUp={stopEditing}
-          ></input>
-        ) : (
-          <div>
-            <label ondblclick={editTodo}> {todo.text} </label>
-            <button className='destroy' onClick={removeTodo}></button>
-          </div>
-        )}
+        <input className='toggle' type='checkbox' checked={!todo.active} onClick={changeStatus}></input>
+        {todo.isEditing ? 
+            <input className='isEditing' autoFocus value={todo.text} onKeyUp={stopEditing}></input>
+        : 
+            <div>
+                <label ondblclick={editTodo}> {todo.text}  </label>
+                <button className='destroy' onClick={removeTodo}></button>
+            </div>
+        }
       </div>
     </li>
   );
 }
 
-const newLi = value => {
+const newTodo = value => {
   return {
     id: Date.now(),
     text: value,
@@ -186,7 +159,7 @@ const newLi = value => {
 function GeneralFooter() {
   return (
     <footer className='info'>
-      <p>Double-click to edit a todo</p>
+      <p> Double-click to edit a todo</p>
       <p> Created by Emil & Silver & Valeia & Anna</p>
     </footer>
   );

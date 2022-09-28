@@ -24,12 +24,11 @@ export class createBrowserHistory {
     }
 }
 
-export function Link({ to, children, navigate, history }) {
+export function Link({ to, children, history }) {
   let dispatch = store.dispatch.bind(store);
   const href = to ? history.createHref(to) : '';
   const onClick = event => {
     event.preventDefault();
-    // navigate(to);
     dispatch(setLocation(to));
     history.push(to);
   };
