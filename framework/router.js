@@ -1,3 +1,5 @@
+import VDom from "../framework/Vdom";
+
 export class createBrowserHistory {
     get location() {
         const state = window.history.state
@@ -14,18 +16,35 @@ export class createBrowserHistory {
         return path
     }
 
-    listen(listener) {
-        const stateListener = (event) => {
-            const state = event.state
-            listener(state ? state.location : window.location.pathname)
-        }
-        window.addEventListener('popstate', stateListener, false)
-
-        return () => {
-            window.removeEventListener('popstate', stateListener)
-        }
+    listen(dispatch, listener) {
+        window.addEventListener('popstate', () => {
+            dispatch(listener(this.location))
+        });
     }
 }
 
+export function Link({to, children, navigate, history}) {
+    const href = to ? history.createHref(to) : ''
+    const onClick = (event) => {
+        event.preventDefault()
+        navigate(to)
+        history.push(to)
+    }
+    return <a href={href} onClick={onClick}>{children}</a>
+}
 
+export function Route({path, location, children}) {
+    const match = matchPath(location, path)
+    if (match) {
+        return children
+    }
+    return null
+}
+
+function matchPath(location, path) {
+    const regexp = new RegExp(
+        '^' + path + '$'
+    )
+    return regexp.exec(location)
+}
 
