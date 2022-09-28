@@ -116,7 +116,6 @@ function TodoBox({todo}) {
         }
     }
 
-
     return (
         <li key={todo.id} className={todo.active ? "" : "completed"}>
             <div className='view'>
@@ -128,15 +127,17 @@ function TodoBox({todo}) {
                 ></input>
                 {todo.isEditing
                     ? <input className="isEditing" autoFocus value={todo.text} onKeyUp={stopEditing}></input>
-                    : <Fragment>
+                    : <div>
                         <label ondblclick={editTodo}> {todo.text} </label>
                         <button className='destroy' onClick={removeTodo}></button>
-                    </Fragment>
+                    </div>
                 }
             </div>
         </li>
     );
 }
+
+
 
 const newLi = (value) => {
     return {
