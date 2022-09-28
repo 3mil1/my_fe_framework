@@ -1,4 +1,4 @@
-import VDom, {Fragment} from "../framework/Vdom";
+import VDom from "../framework/Vdom";
 import "./styles.css";
 import {store} from "./store/store";
 import {setLocation} from "./router/router_state";

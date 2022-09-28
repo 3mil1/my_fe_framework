@@ -17,9 +17,6 @@ const VDom = {
     }
 }
 
-export function Fragment({children}) {
-    console.log(children)
-    return children
-}
+
 
 export default VDom
