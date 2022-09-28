@@ -57,6 +57,20 @@ function Header() {
 }
 
 function Todos({ list }) {
+
+    const setAllActiveStatus = () => {
+        let isSomeActive = list.some(el => el.active)
+        if (isSomeActive) {
+          list.forEach(todo => {
+            if (todo.active) dispatch(changeStatusTODO(todo.id));
+          });
+        } else {
+          list.forEach(todo => {
+            if (!todo.active) dispatch(changeStatusTODO(todo.id));
+          });
+        }
+    }
+
     let currentPage = store.state.location.current.substring(1);
     switch (currentPage) {
         case 'active':
@@ -72,19 +86,23 @@ function Todos({ list }) {
 
     return (
         <section className='main' style={list == null || list.length === 0 ? 'display:none' : ''}>
-        <label htmlFor='toggle-all'>Mark all as complete</label>
-        <input type='checkbox' id='toggle-all' className={'toggle-all'} />
-        <ul className={'todo-list'}>
-            {list ? list.map(el => { return <TodoBox todo={el} /> }) : 'nothing to show'}
-        </ul>
+            <input type='checkbox' id='toggle-all' className='toggle-all' onClick={setAllActiveStatus} />
+            <label htmlFor='toggle-all'>Mark all as complete</label>
+            <ul className={'todo-list'}>
+                {list ? list.map(el => { return <TodoBox todo={el} /> }) : 'nothing to show'}
+            </ul>
         </section>
     );
 }
 
 function Footer({ activeCount }) {
-    const clearAll = () => {
-        localStorage.removeAll();
-        dispatch(setTODO([]));
+    const isSomethingToRemove = activeCount != store.state.todo.li.length;
+    const clearCompleted = () => {
+        store.state.todo.li.forEach(todo => {
+            if (!todo.active){
+                dispatch(deleteTODO(todo.id));
+            }
+        });
     };
     
     return (
@@ -99,7 +117,7 @@ function Footer({ activeCount }) {
             <li><Link history={history} to='/completed'>  Completed</Link></li>
         </ul>
 
-        <button className={'clear-completed'} onClick={clearAll}>Clear completed</button>
+        { isSomethingToRemove ? <button className={'clear-completed'} onClick={clearCompleted}> Clear completed </button> : "" }
 
         {/* <Route path={'/active'} location={location}>
             <div>hallejualajjs</div>
