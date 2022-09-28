@@ -1,4 +1,3 @@
-import {createReducers} from "./reducer";
 
 export class Store {
     constructor(reducer, initialState) {

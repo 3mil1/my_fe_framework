@@ -41,8 +41,18 @@ export function todoReducer(state = todoInitialState, action) {
     }
 }
 
+export const SWITCH_FILTER = "SWITCH_FILTER";
+
 export function filtersReducer(state = filtersInitialState,  action) {
-    Object.keys(state.filters)
+    switch (action.type) {
+        case SWITCH_FILTER:
+            state.activeFilter = action.name;
+            return state;
+        default:
+            return state;
+    }
+    // console.log("Filter reducer", state, action);
+    // return state;
 }
 
 //Action creators
@@ -70,5 +80,12 @@ export function CompleteTodo(id) {
 export function CompleteAll() {
     return {
         type: COMPLETE_ALL,
+    }
+}
+
+export function SwitchFilter(name) {
+    return {
+        type: SWITCH_FILTER,
+        name
     }
 }

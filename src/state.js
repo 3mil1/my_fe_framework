@@ -6,15 +6,29 @@ export const todoInitialState = {
     todos: [],
 }
 
-export const filtersInitialState = {
-    filters : {
-        all: true,
-        active: false,
-        completed: false,
-    },
-}
+export const FILTER_ALL = "FILTER_ALL";
+export const FILTER_COMPLETED = "FILTER_COMPLETED";
+export const FILTER_ACTIVE = "FILTER_ACTIVE";
+
+export const filtersInitialState =
+    {
+    activeFilter: getFilter(),
+};
 
 export const store = new Store(combineReducers({
     task: todoReducer,
-    // filters: filtersReducer,
+    filters: filtersReducer,
 }));
+
+function getFilter() {
+    switch (document.location.hash.replace("#", "")) {
+        case "/active":
+            return FILTER_ACTIVE;
+
+        case "/completed":
+            return FILTER_COMPLETED;
+        default:
+            return FILTER_ALL;
+    }
+
+}
