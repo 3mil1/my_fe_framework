@@ -5,7 +5,7 @@ export class LocalStorage {
 
     getAll() {
         let stored = localStorage.getItem(this.key);
-        if (stored === "undefined") {
+        if (stored === "undefined" || stored === null) {
             return []
         } else {
             return JSON.parse(stored)
