@@ -17,6 +17,4 @@ const VDom = {
     }
 }
 
-
-
 export default VDom
