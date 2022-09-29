@@ -64,7 +64,12 @@ The `htmlFor` is used in labels, and it refers to the `id` this label associated
 The `style` attribute sets the style of an element.
 ### value
 ***
-The `value` attribute specifies the value of an element. It's supported by `<input>`, `<select>` and `<textarea>`.
+The `value` attribute specifies the value of an element. It's supported by `<input>`, `<select>` and `<textarea>` tags.
+## Supported events
+### Keyboard events
+Names: `onKeyDown onKeyPress onKeyUp`
+Properties:
+``
 ## Credits
 
 Made with [createapp.dev](https://createapp.dev/)
