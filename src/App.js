@@ -163,7 +163,7 @@ function TodoBox({todo}) {
                     <input className='isEditing' autoFocus value={todo.text} onKeyUp={stopEditing}></input>
                     :
                     <div>
-                        <label ondblclick={editTodo}> {todo.text}  </label>
+                        <label onDblClick={editTodo}> {todo.text}  </label>
                         <button className='destroy' onClick={removeTodo}></button>
                     </div>
                 }
