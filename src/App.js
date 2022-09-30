@@ -155,6 +155,17 @@ function TodoBox({todo}) {
         }
     };
 
+    const stopAllEditing = () =>{
+        let state = store.getState();
+        let todos = state.todo.li;
+        for (let el of todos){
+            if (el.isEditing == true){
+                el.isEditing = false
+                return dispatch(todos)
+            }
+        }
+    }
+
     return (
         <li key={todo.id} className={todo.active ? '' : 'completed'}>
             <div className='view'>
@@ -163,7 +174,7 @@ function TodoBox({todo}) {
                     <input className='isEditing' autoFocus value={todo.text} onKeyUp={stopEditing}></input>
                     :
                     <div>
-                        <label onDblClick={editTodo}> {todo.text}  </label>
+                        <label onDblClick={editTodo} onClick={stopAllEditing}> {todo.text}  </label>
                         <button className='destroy' onClick={removeTodo}></button>
                     </div>
                 }
