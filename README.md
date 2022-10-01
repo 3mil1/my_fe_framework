@@ -67,9 +67,12 @@ The `style` attribute sets the style of an element.
 The `value` attribute specifies the value of an element. It's supported by `<input>`, `<select>` and `<textarea>` tags.
 ## Supported events
 ### Keyboard events
-Names: `onKeyDown onKeyPress onKeyUp`
-Properties:
-``
+Names: `onKeyDown onKeyPress onKeyUp` <br/>
+Supports common keyboars events (`key, keyCode, ctrlKey` and etc).
+### Focus events
+Names: `onFocus onBlur`
+### Mouse events
+Names: `onClick onDblClick onMouseEnter` and etc.
 ## Credits
 
 Made with [createapp.dev](https://createapp.dev/)
