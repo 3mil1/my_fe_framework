@@ -59,16 +59,27 @@ function Header() {
 function Todos({list}) {
 
     const setAllActiveStatus = () => {
-        let isSomeActive = list.some(el => el.active)
-        if (isSomeActive) {
-            list.forEach(todo => {
-                if (todo.active) dispatch(changeStatusTODO(todo.id));
-            });
-        } else {
-            list.forEach(todo => {
-                if (!todo.active) dispatch(changeStatusTODO(todo.id));
-            });
+        let newList = localStorage.getAll();
+        let isSomeActive = newList.some(el => el.active)
+        let isAllActive = newList.every(el => el.active)
+        console.log("ois all active", isAllActive);
+        console.log("ois some active", isSomeActive);
+        if (isAllActive){
+              newList.forEach(todo => {
+                    if (todo.active) dispatch(changeStatusTODO(todo.id));
+                });
+        }else{
+            if (isSomeActive) {
+                newList.forEach(todo => {
+                    if (todo.active) dispatch(changeStatusTODO(todo.id));
+                });
+            } else {
+                newList.forEach(todo => {
+                    if (!todo.active) dispatch(changeStatusTODO(todo.id));
+                });
+            }
         }
+        // localStorage.store(newList);
     }
 
     let currentPage = store.state.location.current.substring(1);
