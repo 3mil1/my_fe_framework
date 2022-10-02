@@ -99,6 +99,7 @@ function Todos({list}) {
 
 function Footer({activeCount, isEmpty}) {
     const isSomethingToRemove = activeCount != store.state.todo.li.length;
+    const filter = store.state.location.current.substring(1);
     const clearCompleted = () => {
         store.state.todo.li.forEach(todo => {
             if (!todo.active) {
@@ -114,9 +115,9 @@ function Footer({activeCount, isEmpty}) {
         </span>
 
             <ul className={'filters'}>
-                <li><Link className={"selected"}history={history} to='/'> All</Link></li>
-                <li><Link history={history} to='/active'> Active</Link></li>
-                <li><Link history={history} to='/completed'> Completed</Link></li>
+                <li className={filter !== 'active' && filter !== 'completed' ? "selected": ""}><Link history={history} to='/'>All</Link></li>
+                <li className={filter === 'active'? "selected" : ""}><Link history={history} to='/active'>Active</Link></li>
+                <li className={filter ==='completed' ? "selected" : ""}><Link history={history} to='/completed'>Completed</Link></li>
             </ul>
 
             {isSomethingToRemove ?
