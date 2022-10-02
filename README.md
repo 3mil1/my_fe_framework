@@ -82,13 +82,21 @@ There's a system of store and reducers to manage the state.
 ## Reducer
 Reducer is a function that takes the current `state` and an `action` as arguments and returns new state. <br/>
 `(state, action) => newState`
+### combineReducers(reducers)
+***
+The `combineReducers` function helps combine different reducing functions into one. It is usefull when the app becomes
+more complex and there are more than one reducing functions managing independent parts of the state each. You can define
+each reducer with a key name. The result of this function is a single state object you can pass as an argument when
+creating `new Store`. <br/>
+**For example:** <br/>
+`combineReducers({ first: myFirstReducer, second: mySecondReducer })`.
 ## Store
 A store is a class that holds the application's state tree. 
 ### Store methods
 ***
 `getState()` returns current state of the store<br/>
 `dispatch(action)` applies changes to the store's state<br/>
-`subscribe(listener)` adds a change listener. Fire the function returned by `subscribe` to unsubscribe current listener.
+`subscribe(listener)` adds a change listener. Fire the function returned by `subscribe` to unsubscribe the listener.
 
 
 ## Credits
