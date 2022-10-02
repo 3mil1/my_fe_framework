@@ -92,11 +92,20 @@ creating `new Store`. <br/>
 `combineReducers({ first: myFirstReducer, second: mySecondReducer })`.
 ## Store
 A store is a class that holds the application's state tree. 
+### Store creating
+`const myStore = new Store(reducer)` <br/>
+**NB:** there should be only  one store in the app.
 ### Store methods
 ***
 `getState()` returns current state of the store<br/>
 `dispatch(action)` applies changes to the store's state<br/>
 `subscribe(listener)` adds a change listener. Fire the function returned by `subscribe` to unsubscribe the listener.
+
+### Local storage
+<mark>TODO</mark>
+
+## Router
+<mark>TODO</mark>
 
 
 ## Credits

@@ -6,6 +6,3 @@ export const store = new Store(combineReducers({
     todo: todoReducer,
     location: locationReducer,
 }))
-
-
-
