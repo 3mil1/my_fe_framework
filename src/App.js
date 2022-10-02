@@ -62,8 +62,6 @@ function Todos({list}) {
         let newList = localStorage.getAll();
         let isSomeActive = newList.some(el => el.active)
         let isAllActive = newList.every(el => el.active)
-        console.log("ois all active", isAllActive);
-        console.log("ois some active", isSomeActive);
         if (isAllActive){
               newList.forEach(todo => {
                     if (todo.active) dispatch(changeStatusTODO(todo.id));
@@ -142,7 +140,8 @@ function Footer({activeCount, isEmpty}) {
 }
 
 function TodoBox({todo}) {
-    const editTodo = () => {
+    const editTodo = (e) => {
+        // console.log("on dbl", e);
         todo.isEditing = true;
         dispatch(todo);
     };
@@ -155,13 +154,13 @@ function TodoBox({todo}) {
     };
 
     const stopEditing = e => {
-        if (e.key === 'Enter') {
+        if (e.key === 'Enter' || e.type ==="change") {
             let input = e.currentTarget.value.trim();
             todo.isEditing = false;
             todo.text = input;
             return input != "" ? dispatch(todo) : removeTodo(todo.id)
         }
-        if (e.key == 'Escape') {
+        if (e.key == 'Escape' || e.type ==="blur") {
             todo.isEditing = false;
             return dispatch(todo);
         }
@@ -183,7 +182,12 @@ function TodoBox({todo}) {
             <div className='view'>
                 <input className='toggle' type='checkbox' checked={!todo.active} onClick={changeStatus}></input>
                 {todo.isEditing ?
-                    <input className='isEditing' autoFocus value={todo.text} onKeyUp={stopEditing}></input>
+                    <input className='isEditing' autofocus="autofocus" value={todo.text}
+                           onKeyUp={stopEditing}
+                           onBlur={(e) => {stopEditing(e)}}
+                        onChange={(e) => {stopEditing(e)}}>
+
+                    </input>
                     :
                     <div>
                         <label onDblClick={editTodo} onClick={stopAllEditing}> {todo.text}  </label>
