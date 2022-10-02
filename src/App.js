@@ -110,7 +110,7 @@ function Footer({activeCount}) {
     return (
         <footer className={'footer'}>
         <span className={'todo-count'}>
-            {activeCount} items left
+            {activeCount} {activeCount === 1 ? "item" : "items"} left
         </span>
 
             <ul className={'filters'}>
@@ -155,11 +155,11 @@ function TodoBox({todo}) {
         }
     };
 
-    const stopAllEditing = () =>{
+    const stopAllEditing = () => {
         let state = store.getState();
         let todos = state.todo.li;
-        for (let el of todos){
-            if (el.isEditing == true){
+        for (let el of todos) {
+            if (el.isEditing == true) {
                 el.isEditing = false
                 return dispatch(todos)
             }
