@@ -98,7 +98,6 @@ function Todos({list}) {
 }
 
 function Footer({activeCount, isEmpty}) {
-    // console.log("Is empty", isEmpty);
     const isSomethingToRemove = activeCount != store.state.todo.li.length;
     const clearCompleted = () => {
         store.state.todo.li.forEach(todo => {
