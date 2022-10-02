@@ -6,7 +6,11 @@ is React-like framework. It uses [JSX](https://en.wikipedia.org/wiki/JSX_(JavaSc
 for rendering components and [Babel](https://en.wikipedia.org/wiki/Babel_(transcompiler))
 as transcompiler.
 
-## Building and running on localhost
+### Building and running docker-file
+Run `start.sh` <br/>
+This start serving the application on  [localhost:8080](http://localhost:8080/) 
+
+### Building and running on localhost
 
 First install dependencies:
 
@@ -39,12 +43,18 @@ node dist/bundle.js
 1. Open HTML page, add an empty `<div>` and set unique `id` HTML attribute.
 2. Next, add `<script>` tag before closing `</body>` tag. Add to `src` attribute `bundle.js` (filename can be changed in
    `webpack.config.js`.
-### Create components 
-***
-<mark >TODO</mark >
 ### Creating elements
 ***
 Element is an object with `type`, `configs` and `props`. `Vdom.createElement` creates that object.
+### Create components
+***
+Component is a function that returns HTML element.
+```
+function newComponent() {
+   return (
+      <div> Hi! I'm your new component</div>
+   )}
+```
 ### render()
 ***
 Render an element into the DOM in the provided container.
@@ -97,17 +107,30 @@ A store is a class that holds the application's state tree.
 **NB:** there should be only  one store in the app.
 ### Store methods
 ***
-`getState()` returns current state of the store<br/>
-`dispatch(action)` applies changes to the store's state<br/>
-`subscribe(listener)` adds a change listener. Fire the function returned by `subscribe` to unsubscribe the listener.
+> * `getState()` returns current state of the store<br/>
+> * `dispatch(action)` applies changes to the store's state<br/>
+> * `subscribe(listener)` adds a change listener. Fire the function returned by `subscribe` to unsubscribe the listener.
 
 ### Local storage
-<mark>TODO</mark>
-
+***
+There is also a `LocalStorage` class that helps you to store the app's current state and get access to it from any node of 
+your app. To set updates to the local storage use `store()` method.
 ## Router
-<mark>TODO</mark>
+To configure the router first create a new instance of the class `createBrowserHistory`. <br/>
+It has following methods: <br/>
+> * `location()` returns current pathname <br/>
+> * `push(location)` redirects to passed location <br/>
+> * `createHref(path)` creates `href` for tag `<a>` <br/>
+> * `listen` adds a listener to the window history changes<br/>
+### `Link` component
+***
+This component helps to handle navigation. <br/>
+Properties: <br/>
+> * `to` describes location, same as `href` in an anchor tag<br/>
+> * `history` instance of `createBrowserHistory` class <br/>
+> * `children` nested nodes to place inside an anchor tag<br/>
 
+[//]: # (## Credits)
 
-## Credits
-
-Made with [createapp.dev](https://createapp.dev/)
+[//]: # ()
+[//]: # (Made with [createapp.dev]&#40;https://createapp.dev/&#41;)
