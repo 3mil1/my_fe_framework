@@ -110,7 +110,7 @@ function Footer({activeCount}) {
     return (
         <footer className={'footer'}>
         <span className={'todo-count'}>
-            <strong>{activeCount}</strong> items left
+            {activeCount} items left
         </span>
 
             <ul className={'filters'}>

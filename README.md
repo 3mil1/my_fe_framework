@@ -67,12 +67,30 @@ The `style` attribute sets the style of an element.
 The `value` attribute specifies the value of an element. It's supported by `<input>`, `<select>` and `<textarea>` tags.
 ## Supported events
 ### Keyboard events
+***
 Names: `onKeyDown onKeyPress onKeyUp` <br/>
 Supports common keyboars events (`key, keyCode, ctrlKey` and etc).
 ### Focus events
+***
 Names: `onFocus onBlur`
 ### Mouse events
+***
 Names: `onClick onDblClick onMouseEnter` and etc.
+
+# FIMI state management
+There's a system of store and reducers to manage the state.
+## Reducer
+Reducer is a function that takes the current `state` and an `action` as arguments and returns new state. <br/>
+`(state, action) => newState`
+## Store
+A store is a class that holds the application's state tree. 
+### Store methods
+***
+`getState()` returns current state of the store<br/>
+`dispatch(action)` applies changes to the store's state<br/>
+`subscribe(listener)` adds a change listener. Fire the function returned by `subscribe` to unsubscribe current listener.
+
+
 ## Credits
 
 Made with [createapp.dev](https://createapp.dev/)
