@@ -21,7 +21,7 @@ export function App() {
         <section className={'todoapp'}>
             <Header/>
             <Todos list={state.todo.li}/>
-            <Footer activeCount={activeTodos}/>
+            <Footer activeCount={activeTodos} isEmpty={todos.length === 0}/>
             <GeneralFooter/>
         </section>
     );
@@ -97,7 +97,8 @@ function Todos({list}) {
     );
 }
 
-function Footer({activeCount}) {
+function Footer({activeCount, isEmpty}) {
+    // console.log("Is empty", isEmpty);
     const isSomethingToRemove = activeCount != store.state.todo.li.length;
     const clearCompleted = () => {
         store.state.todo.li.forEach(todo => {
@@ -108,13 +109,13 @@ function Footer({activeCount}) {
     };
 
     return (
-        <footer className={'footer'}>
+        <footer className={'footer'} style={isEmpty? "display:none" : ""}>
         <span className={'todo-count'}>
             {activeCount} {activeCount === 1 ? "item" : "items"} left
         </span>
 
             <ul className={'filters'}>
-                <li><Link history={history} to='/'> All</Link></li>
+                <li><Link className={"selected"}history={history} to='/'> All</Link></li>
                 <li><Link history={history} to='/active'> Active</Link></li>
                 <li><Link history={history} to='/completed'> Completed</Link></li>
             </ul>
