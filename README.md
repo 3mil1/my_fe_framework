@@ -1,12 +1,16 @@
-REPO >  https://github.com/3mil1/my_fe_framework
+<!-- REPO >  https://github.com/3mil1/my_fe_framework -->
 
-# my_framework
+TASK DESCRIPTION -> https://github.com/01-edu/public/tree/master/subjects/mini-framework
+AUDIT QUESTIONS -> https://github.com/01-edu/public/tree/master/subjects/mini-framework/audit
+
+# mini-framework "FIMI"
 
 is React-like framework. It uses [JSX](https://en.wikipedia.org/wiki/JSX_(JavaScript))
 for rendering components and [Babel](https://en.wikipedia.org/wiki/Babel_(transcompiler))
 as transcompiler.
 
 ### Building and running docker-file
+
 Run `start.sh` <br/>
 This start serving the application on  [localhost:8080](http://localhost:8080/) 
 
