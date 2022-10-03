@@ -94,7 +94,7 @@ function Todos({list}) {
     }
 
     return (
-        <section className='main' style={list == null || list.length === 0 ? 'display:none' : ''}>
+        <section className='main' style={list === null || list.length === 0 ? 'display:none' : ''}>
             <input type='checkbox' id='toggle-all' className='toggle-all' onClick={setAllActiveStatus}/>
             <label htmlFor='toggle-all'>Mark all as complete</label>
             <ul className={'todo-list'}>
@@ -160,7 +160,7 @@ function TodoBox({todo}) {
             todo.text = input;
             return input != "" ? dispatch(todo) : removeTodo(todo.id)
         }
-        if (e.key == 'Escape' || e.type ==="blur") {
+        if (e.key === 'Escape' || e.type ==="blur") {
             todo.isEditing = false;
             return dispatch(todo);
         }
@@ -170,7 +170,7 @@ function TodoBox({todo}) {
         let state = store.getState();
         let todos = state.todo.li;
         for (let el of todos) {
-            if (el.isEditing == true) {
+            if (el.isEditing === true) {
                 el.isEditing = false
                 return dispatch(todos)
             }
