@@ -1,6 +1,6 @@
 <!-- REPO >  https://github.com/3mil1/my_fe_framework -->
 
-TASK DESCRIPTION -> https://github.com/01-edu/public/tree/master/subjects/mini-framework
+TASK DESCRIPTION -> https://github.com/01-edu/public/tree/master/subjects/mini-framework <br>
 AUDIT QUESTIONS -> https://github.com/01-edu/public/tree/master/subjects/mini-framework/audit
 
 # mini-framework "FIMI"
